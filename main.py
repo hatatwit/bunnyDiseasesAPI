@@ -15,7 +15,14 @@ app.add_middleware(
 )
 
 # Loading up the Trained Model
-model = pickle.load(open("./diseases_trained_model.sav", "rb"))
+abscesses_model = pickle.load(open("./abscesses_model.sav", "rb"))
+bladder_sludge_model = pickle.load(open("./bladder_sludge_model.sav", "rb"))
+ear_mites_model = pickle.load(open("./ear_mites_model.sav", "rb"))
+fur_mites_model = pickle.load(open("./fur_mites_model.sav", "rb"))
+gi_stasis_model = pickle.load(open("./gi_stasis_model.sav", "rb"))
+heatstroke_model = pickle.load(open("./heatstroke_model.sav", "rb"))
+overgrown_teeth_model = pickle.load(open("./overgrown_teeth_model.sav", "rb"))
+snuffles_model = pickle.load(open("./snuffles_model.sav", "rb"))
 
 # Defining the Model Input Types
 class Disease(BaseModel):
@@ -82,10 +89,20 @@ async def get_predict(data: Disease):
         data.lump,
         data.fur_lost
     ]]
-    result = model.predict(sample).tolist()[0]
+
+    result = {
+        "Abscesses": abscesses_model.predict(sample).tolist()[0],
+        "Bladder sludge": bladder_sludge_model.predict(sample).tolist()[0],
+        "Ear mites": ear_mites_model.predict(sample).tolist()[0],
+        "Fur mites": fur_mites_model.predict(sample).tolist()[0],
+        "GI stasis": gi_stasis_model.predict(sample).tolist()[0],
+        "Heatstroke": heatstroke_model.predict(sample).tolist()[0],
+        "Overgrown teeth": overgrown_teeth_model.predict(sample).tolist()[0],
+        "Snuffles": snuffles_model.predict(sample).tolist()[0]
+    }
     return {
         "data": {
             "result": result,
-            "interpretation": "GI Stasis" if result == 1 else "Not GI Stasis"
+            "interpretation": [key for key, value in result.items() if value == 1]
         }
     }

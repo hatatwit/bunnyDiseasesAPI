@@ -13,3 +13,4 @@ starlette
 threadpoolctl
 typing-extensions
 wheel
+uvicorn

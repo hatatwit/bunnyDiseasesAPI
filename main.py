@@ -108,6 +108,6 @@ async def get_predict(data: Disease):
         }
     }
 
-if __name__ == "__main__":
-
-    uvicorn.run(app, port=8000, host="localhost")
+# if __name__ == "__main__":
+#
+#     uvicorn.run(app, port=8000, host="localhost")
